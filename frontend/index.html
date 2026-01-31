@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyToken Interface</title>
+    <!-- Load ethers.js from local node_modules -->
+    <script src="node_modules/ethers/dist/ethers.umd.min.js"></script>
+    <script src="https://cdn.ethers.io/lib/ethers-5.7.2.umd.min.js" type="application/javascript"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .card {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        input {
+            padding: 8px;
+            margin: 5px 0;
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .token-info {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h2>Connect Wallet</h2>
+            <button id="connectWallet">Connect Wallet</button>
+            <p id="walletAddress"></p>
+            <p id="error" class="error"></p>
+        </div>
+
+        <div class="card">
+            <h2>Token Information</h2>
+            <div id="tokenInfo" class="token-info">
+                Connect your wallet to see token information
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Token Balance</h2>
+            <button id="checkBalance">Check Balance</button>
+            <p id="tokenBalance"></p>
+        </div>
+
+        <div class="card">
+            <h2>Transfer Tokens</h2>
+            <input type="text" id="recipientAddress" placeholder="Recipient Address">
+            <input type="number" id="transferAmount" placeholder="Amount">
+            <button id="transferTokens">Transfer</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

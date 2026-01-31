@@ -1,0 +1,22 @@
+{
+  "name": "erc20-token-project",
+  "version": "1.0.0",
+  "description": "ERC-20 Token Project with smart contract and frontend integration",
+  "main": "index.js",
+  "scripts": {
+    "test": "hardhat test",
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.js --network <network>"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.1",
+    "ethers": "^6.7.0",
+    "express": "^5.1.0",
+    "hardhat": "^2.19.4"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "chai": "^4.3.7",
+    "dotenv": "^16.3.1"
+  }
+}
