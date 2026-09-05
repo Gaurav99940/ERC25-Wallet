@@ -3,95 +3,373 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyToken Interface</title>
-    <!-- Load ethers.js from local node_modules -->
-    <script src="node_modules/ethers/dist/ethers.umd.min.js"></script>
-    <script src="https://cdn.ethers.io/lib/ethers-5.7.2.umd.min.js" type="application/javascript"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
+    <title>Aura Liquid | ERC-20 Smart Portal</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- QRCode.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Ethers.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+    <script>
+        if (typeof ethers === 'undefined') {
+            document.write('<script src="node_modules/ethers/dist/ethers.umd.min.js"><\/script>');
         }
-        .container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        .card {
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 8px;
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-        input {
-            padding: 8px;
-            margin: 5px 0;
-            width: 100%;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        .token-info {
-            background-color: #e8f5e9;
-            padding: 15px;
-            border-radius: 4px;
-            margin-top: 10px;
-        }
-        .error {
-            color: red;
-            margin-top: 10px;
-        }
-    </style>
+    </script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="card">
-            <h2>Connect Wallet</h2>
-            <button id="connectWallet">Connect Wallet</button>
-            <p id="walletAddress"></p>
-            <p id="error" class="error"></p>
-        </div>
+    <!-- Background Interactive Liquid Simulation Canvas -->
+    <canvas id="liquid-canvas"></canvas>
+    <div class="ambient-glow ambient-glow-1"></div>
+    <div class="ambient-glow ambient-glow-2"></div>
 
-        <div class="card">
-            <h2>Token Information</h2>
-            <div id="tokenInfo" class="token-info">
-                Connect your wallet to see token information
+    <!-- App Container -->
+    <div class="app-wrapper">
+        <!-- Header / Navigation -->
+        <header class="header-glass">
+            <div class="brand-section">
+                <div class="brand-logo-wrap">
+                    <i class="fa-solid fa-droplet"></i>
+                </div>
+                <div>
+                    <h1 class="brand-title">AURA <span class="brand-badge">LIQUID ERC-20</span></h1>
+                </div>
             </div>
-        </div>
 
-        <div class="card">
-            <h2>Token Balance</h2>
-            <button id="checkBalance">Check Balance</button>
-            <p id="tokenBalance"></p>
-        </div>
+            <div class="header-actions">
+                <!-- Sound FX Toggle -->
+                <button class="icon-btn active" id="btnToggleSound" title="Toggle Liquid Audio Effects">
+                    <i class="fa-solid fa-volume-high" id="soundIcon"></i>
+                </button>
 
-        <div class="card">
-            <h2>Transfer Tokens</h2>
-            <input type="text" id="recipientAddress" placeholder="Recipient Address">
-            <input type="number" id="transferAmount" placeholder="Amount">
-            <button id="transferTokens">Transfer</button>
+                <!-- Contract Config Modal Trigger -->
+                <button class="icon-btn" id="btnOpenContractSettings" title="Contract Configuration">
+                    <i class="fa-solid fa-sliders"></i>
+                </button>
+
+                <!-- Network Switcher Badge -->
+                <div class="network-badge" id="networkBadge" title="Click to switch or add Hardhat network">
+                    <span class="network-dot" id="networkDot"></span>
+                    <span id="networkName">Not Connected</span>
+                </div>
+
+                <!-- Connect Wallet Button / Pill -->
+                <button class="btn-connect" id="btnConnectWallet">
+                    <i class="fa-solid fa-wallet"></i>
+                    <span>Connect Wallet</span>
+                </button>
+
+                <div class="wallet-connected-pill" id="walletPill">
+                    <div class="wallet-avatar" id="walletAvatar">0x</div>
+                    <span class="wallet-address-txt" id="walletShortAddress">0x000...000</span>
+                    <button class="copy-btn-mini" id="btnCopyNavAddress" title="Copy Address">
+                        <i class="fa-regular fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Metrics Ticker / Dashboard Stats -->
+        <section class="hero-grid">
+            <!-- Token Info Card -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-label">Token Asset</span>
+                    <div class="metric-icon"><i class="fa-solid fa-coins"></i></div>
+                </div>
+                <div class="metric-value">
+                    <span id="metricTokenName">MyToken</span>
+                    <span class="metric-symbol" id="metricTokenSymbol">MTK</span>
+                </div>
+                <div class="metric-subtext">
+                    <i class="fa-solid fa-layer-group"></i> Total Supply: <span id="metricTotalSupply">1,000,000 MTK</span>
+                </div>
+            </div>
+
+            <!-- Token Balance Card -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-label">Token Balance</span>
+                    <div class="metric-icon"><i class="fa-solid fa-wallet"></i></div>
+                </div>
+                <div class="metric-value">
+                    <span id="metricTokenBalance">0.00</span>
+                    <span class="metric-symbol" id="metricBalanceSymbol">MTK</span>
+                </div>
+                <div class="metric-subtext">
+                    <i class="fa-solid fa-chart-pie"></i> Share: <span id="metricSupplyShare">0.00%</span>
+                </div>
+            </div>
+
+            <!-- ETH Balance Card -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-label">Gas Balance</span>
+                    <div class="metric-icon"><i class="fa-brands fa-ethereum"></i></div>
+                </div>
+                <div class="metric-value">
+                    <span id="metricEthBalance">0.0000</span>
+                    <span class="metric-symbol">ETH</span>
+                </div>
+                <div class="metric-subtext">
+                    <i class="fa-solid fa-gas-pump"></i> Network Gas Reserve
+                </div>
+            </div>
+
+            <!-- Owner & Contract Info Card -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-label">Contract Status</span>
+                    <div class="metric-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                </div>
+                <div class="metric-value">
+                    <span id="metricOwnerStatus" style="font-size: 20px;">Checking...</span>
+                </div>
+                <div class="metric-subtext" style="cursor: pointer;" id="btnCopyContractAddress">
+                    <i class="fa-regular fa-copy"></i> Contract: <span id="metricContractShort">0x5Fb...0aa3</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Portal Panel (Tabs) -->
+        <main class="main-portal-card">
+            <nav class="tabs-nav">
+                <button class="tab-btn active" data-tab="tab-send">
+                    <i class="fa-solid fa-paper-plane"></i> Send
+                </button>
+                <button class="tab-btn" data-tab="tab-receive">
+                    <i class="fa-solid fa-qrcode"></i> Receive
+                </button>
+                <button class="tab-btn" data-tab="tab-mintburn">
+                    <i class="fa-solid fa-fire-flame-curved"></i> Mint & Burn
+                </button>
+                <button class="tab-btn" data-tab="tab-faucet">
+                    <i class="fa-solid fa-faucet-drip"></i> Faucet
+                </button>
+                <button class="tab-btn" data-tab="tab-activity">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Activity
+                </button>
+            </nav>
+
+            <!-- TAB 1: SEND / TRANSFER -->
+            <section class="tab-pane active" id="tab-send">
+                <div style="max-width: 640px; margin: 0 auto;">
+                    <div class="form-group">
+                        <label class="form-label" for="sendRecipient">
+                            <span>Recipient Address</span>
+                            <span class="hint" id="btnPasteRecipient"><i class="fa-regular fa-clipboard"></i> Paste</span>
+                        </label>
+                        <div class="input-container">
+                            <input type="text" id="sendRecipient" class="input-glass" placeholder="0x... (Ethereum or ENS address)" autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="sendAmount">
+                            <span>Amount to Send</span>
+                            <span class="hint" id="btnAvailableBalance">Available: 0 MTK</span>
+                        </label>
+                        <div class="input-container">
+                            <input type="number" step="any" id="sendAmount" class="input-glass" placeholder="0.0">
+                            <button class="input-suffix-btn" id="btnMaxSend">MAX</button>
+                        </div>
+                        <div class="quick-amount-row">
+                            <button class="amount-pill" data-percent="25">25%</button>
+                            <button class="amount-pill" data-percent="50">50%</button>
+                            <button class="amount-pill" data-percent="75">75%</button>
+                            <button class="amount-pill" data-percent="100">100%</button>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 24px; padding: 12px 16px; background: rgba(9, 17, 37, 0.6); border-radius: var(--radius-md); border: 1px solid rgba(56, 189, 248, 0.1); font-size: 13px; color: var(--text-muted); display: flex; justify-content: space-between;">
+                        <span><i class="fa-solid fa-bolt" style="color: var(--cyan-accent);"></i> Estimated Gas:</span>
+                        <span id="sendEstimatedGas" style="color: #ffffff; font-weight: 600;">~ 0.00042 ETH</span>
+                    </div>
+
+                    <button class="btn-liquid-primary" id="btnExecuteTransfer">
+                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                        <span>Transfer Tokens</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- TAB 2: RECEIVE (QR CODE) -->
+            <section class="tab-pane" id="tab-receive">
+                <div class="receive-box">
+                    <div>
+                        <h3 style="font-size: 22px; margin-bottom: 6px;">Scan to Send MTK</h3>
+                        <p style="color: var(--text-muted); font-size: 14px;">Scan the QR code with MetaMask mobile or copy the address below</p>
+                    </div>
+
+                    <div class="qr-frame" id="qrContainer">
+                        <!-- QR Code Canvas injected here -->
+                    </div>
+
+                    <div class="receive-address-box">
+                        <span id="receiveAddressFull" style="font-family: monospace; font-size: 14px; word-break: break-all; color: var(--cyan-accent);">
+                            Connect your wallet to generate QR code
+                        </span>
+                        <button class="icon-btn" id="btnCopyReceiveAddress" title="Copy Address">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                    </div>
+
+                    <div style="font-size: 12px; color: var(--text-dim); max-width: 480px;">
+                        <i class="fa-solid fa-circle-info"></i> Only send ERC-20 MTK tokens or ETH to this address on the active connected network.
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: MINT & BURN -->
+            <section class="tab-pane" id="tab-mintburn">
+                <div class="mint-burn-grid">
+                    <!-- Owner Minting Suite -->
+                    <div class="subcard-glass">
+                        <div class="subcard-title">
+                            <i class="fa-solid fa-wand-magic-sparkles" style="color: var(--cyan-accent);"></i>
+                            <span>Mint New Tokens</span>
+                            <span class="owner-badge" id="mintOwnerStatusBadge">Owner Feature</span>
+                        </div>
+                        <p style="font-size: 13px; color: var(--text-muted);">
+                            Create new MTK tokens and assign them directly to any wallet. Only accessible by the contract deployer/owner.
+                        </p>
+                        <div class="form-group" style="margin-bottom: 14px;">
+                            <label class="form-label" for="mintRecipient">Recipient Address</label>
+                            <input type="text" id="mintRecipient" class="input-glass" placeholder="0x... (Defaults to your wallet)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="mintAmount">Amount to Mint (MTK)</label>
+                            <input type="number" step="any" id="mintAmount" class="input-glass" placeholder="e.g. 5000">
+                        </div>
+                        <button class="btn-liquid-primary" id="btnExecuteMint">
+                            <i class="fa-solid fa-plus-circle"></i>
+                            <span>Mint MTK</span>
+                        </button>
+                    </div>
+
+                    <!-- Token Burn Portal -->
+                    <div class="subcard-glass">
+                        <div class="subcard-title">
+                            <i class="fa-solid fa-fire" style="color: var(--danger);"></i>
+                            <span>Burn Tokens</span>
+                            <span class="owner-badge" style="background: rgba(245, 158, 11, 0.15); color: var(--warning); border-color: rgba(245, 158, 11, 0.3);">Deflationary</span>
+                        </div>
+                        <p style="font-size: 13px; color: var(--text-muted);">
+                            Permanently destroy MTK tokens from your wallet to reduce the circulating total supply forever.
+                        </p>
+                        <div class="form-group">
+                            <label class="form-label" for="burnAmount">
+                                <span>Amount to Burn</span>
+                                <span class="hint" id="btnMaxBurn">Max: 0 MTK</span>
+                            </label>
+                            <div class="input-container">
+                                <input type="number" step="any" id="burnAmount" class="input-glass" placeholder="Amount to vaporize">
+                                <button class="input-suffix-btn" id="btnFillMaxBurn">MAX</button>
+                            </div>
+                        </div>
+                        <div style="font-size: 12px; color: var(--text-dim); margin-bottom: 8px;">
+                            <i class="fa-solid fa-triangle-exclamation" style="color: var(--warning);"></i> Burned tokens cannot be recovered!
+                        </div>
+                        <button class="btn-liquid-primary btn-liquid-danger" id="btnExecuteBurn">
+                            <i class="fa-solid fa-fire"></i>
+                            <span>Vaporize / Burn MTK</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: FAUCET & TEST TOOLS -->
+            <section class="tab-pane" id="tab-faucet">
+                <div style="max-width: 680px; margin: 0 auto; text-align: center;">
+                    <div class="metric-icon" style="width: 56px; height: 56px; margin: 0 auto 16px; font-size: 24px; border-radius: 16px;">
+                        <i class="fa-solid fa-faucet-drip"></i>
+                    </div>
+                    <h3 style="font-size: 24px; margin-bottom: 8px;">MTK Testnet Faucet</h3>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 24px;">
+                        Claim test MTK tokens instantly for development and testing on Hardhat or supported test networks.
+                    </p>
+
+                    <div style="background: rgba(9, 17, 37, 0.7); border: 1px solid var(--border-glow); border-radius: var(--radius-md); padding: 24px; margin-bottom: 24px;">
+                        <div style="font-size: 32px; font-weight: 800; font-family: 'Outfit'; color: var(--cyan-accent); margin-bottom: 4px;">
+                            100 MTK
+                        </div>
+                        <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">
+                            Free developer tokens distributed directly to your connected wallet
+                        </div>
+                        <button class="btn-liquid-primary" id="btnClaimFaucet">
+                            <i class="fa-solid fa-hand-holding-dollar"></i>
+                            <span>Claim 100 MTK Faucet</span>
+                        </button>
+                    </div>
+
+                    <div style="text-align: left; background: rgba(9, 17, 37, 0.4); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-md); padding: 18px;">
+                        <h4 style="font-size: 14px; margin-bottom: 10px; color: var(--cyan-accent);">
+                            <i class="fa-solid fa-terminal"></i> Hardhat Local Testing Info:
+                        </h4>
+                        <div style="font-size: 12px; color: var(--text-muted); line-height: 1.6;">
+                            • RPC URL: <code style="color: #93c5fd;">http://127.0.0.1:8545</code><br>
+                            • Chain ID: <code style="color: #93c5fd;">1337</code> or <code style="color: #93c5fd;">31337</code><br>
+                            • Currency Symbol: <code style="color: #93c5fd;">ETH</code>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: ACTIVITY / TRANSACTION HISTORY -->
+            <section class="tab-pane" id="tab-activity">
+                <div class="history-header">
+                    <h3 style="font-size: 20px; font-weight: 700;">Recent Transactions</h3>
+                    <button class="icon-btn" id="btnClearHistory" title="Clear Transaction History" style="width: auto; height: auto; padding: 6px 14px; font-size: 12px; border-radius: var(--radius-full); gap: 6px;">
+                        <i class="fa-regular fa-trash-can"></i> Clear History
+                    </button>
+                </div>
+
+                <div class="history-list" id="activityList">
+                    <!-- Populated dynamically by JS -->
+                    <div class="empty-state" id="historyEmptyState">
+                        <i class="fa-solid fa-receipt"></i>
+                        <p>No recent transactions recorded yet.</p>
+                        <span style="font-size: 12px; color: var(--text-dim);">Transactions performed in this session will appear here.</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Contract Settings Modal -->
+    <div class="modal-overlay" id="contractModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 style="font-size: 20px; font-weight: 700;"><i class="fa-solid fa-sliders" style="color: var(--cyan-accent);"></i> Contract Settings</h3>
+                <button class="modal-close" id="btnCloseContractModal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="inputCustomContract">ERC-20 Contract Address</label>
+                <input type="text" id="inputCustomContract" class="input-glass" placeholder="0x...">
+            </div>
+            <div style="font-size: 12px; color: var(--text-dim); margin-bottom: 20px;">
+                Change this if you deploy a new contract instance on Hardhat or testnets.
+            </div>
+            <div style="display: flex; gap: 12px;">
+                <button class="btn-liquid-primary" id="btnSaveContractAddress" style="flex: 2;">
+                    <i class="fa-solid fa-check"></i> Save & Reload
+                </button>
+                <button class="icon-btn" id="btnResetDefaultContract" title="Reset to Default" style="flex: 1; width: auto; height: auto; border-radius: var(--radius-md); font-size: 13px;">
+                    Reset
+                </button>
+            </div>
         </div>
     </div>
 
+    <!-- Toast Notifications Container -->
+    <div id="toast-container"></div>
+
+    <!-- Application JavaScript -->
     <script src="app.js"></script>
 </body>
 </html>

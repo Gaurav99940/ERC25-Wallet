@@ -39,4 +39,29 @@ describe("MyToken", function () {
       ).to.be.revertedWithCustomError(token, "ERC20InsufficientBalance");
     });
   });
+
+  describe("Minting and Burning", function () {
+    it("Should allow owner to mint new tokens", async function () {
+      const mintAmount = ethers.parseUnits("500", 18);
+      await token.mint(addr1.address, mintAmount);
+      expect(await token.balanceOf(addr1.address)).to.equal(mintAmount);
+    });
+
+    it("Should reject minting from non-owner", async function () {
+      const mintAmount = ethers.parseUnits("500", 18);
+      await expect(
+        token.connect(addr1).mint(addr1.address, mintAmount)
+      ).to.be.revertedWithCustomError(token, "OwnableUnauthorizedAccount");
+    });
+
+    it("Should allow token holder to burn their tokens", async function () {
+      const transferAmount = ethers.parseUnits("100", 18);
+      await token.transfer(addr1.address, transferAmount);
+      
+      const burnAmount = ethers.parseUnits("40", 18);
+      await token.connect(addr1).burn(burnAmount);
+      
+      expect(await token.balanceOf(addr1.address)).to.equal(ethers.parseUnits("60", 18));
+    });
+  });
 }); 
