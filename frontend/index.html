@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="azure">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura Liquid | ERC-20 Smart Portal</title>
+    <title>Aura Liquid Crystal | Next-Gen ERC-20 Portal</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- QRCode.js -->
@@ -19,35 +19,49 @@
             document.write('<script src="node_modules/ethers/dist/ethers.umd.min.js"><\/script>');
         }
     </script>
-    <!-- Custom CSS -->
+    <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Background Interactive Liquid Simulation Canvas -->
+    <!-- Dynamic Background Liquid Crystal Canvas -->
     <canvas id="liquid-canvas"></canvas>
     <div class="ambient-glow ambient-glow-1"></div>
     <div class="ambient-glow ambient-glow-2"></div>
 
-    <!-- App Container -->
+    <!-- Application Shell -->
     <div class="app-wrapper">
-        <!-- Header / Navigation -->
+        <!-- Top Navbar -->
         <header class="header-glass">
             <div class="brand-section">
                 <div class="brand-logo-wrap">
-                    <i class="fa-solid fa-droplet"></i>
+                    <i class="fa-solid fa-gem"></i>
                 </div>
                 <div>
-                    <h1 class="brand-title">AURA <span class="brand-badge">LIQUID ERC-20</span></h1>
+                    <h1 class="brand-title">AURA <span class="brand-badge">LIQUID CRYSTAL</span></h1>
                 </div>
             </div>
 
             <div class="header-actions">
+                <!-- Theme Selector Palette -->
+                <div class="theme-picker" title="Change Liquid Crystal Theme">
+                    <button class="theme-dot-btn active" data-set-theme="azure" title="Liquid Azure"></button>
+                    <button class="theme-dot-btn" data-set-theme="emerald" title="Cyber Emerald"></button>
+                    <button class="theme-dot-btn" data-set-theme="amethyst" title="Amethyst Quartz"></button>
+                    <button class="theme-dot-btn" data-set-theme="amber" title="Obsidian Gold"></button>
+                </div>
+
+                <!-- Live Gas Radar -->
+                <div class="gas-radar-pill" title="Live Network Gas Price">
+                    <i class="fa-solid fa-fire-burner"></i>
+                    <span id="gasRadarVal">12 Gwei</span>
+                </div>
+
                 <!-- Sound FX Toggle -->
-                <button class="icon-btn active" id="btnToggleSound" title="Toggle Liquid Audio Effects">
+                <button class="icon-btn active" id="btnToggleSound" title="Toggle Crystal Audio FX">
                     <i class="fa-solid fa-volume-high" id="soundIcon"></i>
                 </button>
 
-                <!-- Contract Config Modal Trigger -->
+                <!-- Contract Settings -->
                 <button class="icon-btn" id="btnOpenContractSettings" title="Contract Configuration">
                     <i class="fa-solid fa-sliders"></i>
                 </button>
@@ -58,7 +72,7 @@
                     <span id="networkName">Not Connected</span>
                 </div>
 
-                <!-- Connect Wallet Button / Pill -->
+                <!-- Connect Wallet Button / Connected Pill -->
                 <button class="btn-connect" id="btnConnectWallet">
                     <i class="fa-solid fa-wallet"></i>
                     <span>Connect Wallet</span>
@@ -67,17 +81,18 @@
                 <div class="wallet-connected-pill" id="walletPill">
                     <div class="wallet-avatar" id="walletAvatar">0x</div>
                     <span class="wallet-address-txt" id="walletShortAddress">0x000...000</span>
-                    <button class="copy-btn-mini" id="btnCopyNavAddress" title="Copy Address">
+                    <button class="icon-btn" id="btnCopyNavAddress" title="Copy Address" style="width: 26px; height: 26px; font-size: 11px;">
                         <i class="fa-regular fa-copy"></i>
                     </button>
                 </div>
             </div>
         </header>
 
-        <!-- Metrics Ticker / Dashboard Stats -->
+        <!-- 3D Tiltable Hero Metrics Ticker -->
         <section class="hero-grid">
-            <!-- Token Info Card -->
-            <div class="metric-card">
+            <!-- Metric 1: Token Asset -->
+            <div class="tiltable-card" data-tilt>
+                <div class="card-shine"></div>
                 <div class="metric-header">
                     <span class="metric-label">Token Asset</span>
                     <div class="metric-icon"><i class="fa-solid fa-coins"></i></div>
@@ -91,10 +106,11 @@
                 </div>
             </div>
 
-            <!-- Token Balance Card -->
-            <div class="metric-card">
+            <!-- Metric 2: Wallet Token Balance -->
+            <div class="tiltable-card" data-tilt>
+                <div class="card-shine"></div>
                 <div class="metric-header">
-                    <span class="metric-label">Token Balance</span>
+                    <span class="metric-label">Your Balance</span>
                     <div class="metric-icon"><i class="fa-solid fa-wallet"></i></div>
                 </div>
                 <div class="metric-value">
@@ -106,10 +122,11 @@
                 </div>
             </div>
 
-            <!-- ETH Balance Card -->
-            <div class="metric-card">
+            <!-- Metric 3: Native Gas Reserve -->
+            <div class="tiltable-card" data-tilt>
+                <div class="card-shine"></div>
                 <div class="metric-header">
-                    <span class="metric-label">Gas Balance</span>
+                    <span class="metric-label">Gas Reserve</span>
                     <div class="metric-icon"><i class="fa-brands fa-ethereum"></i></div>
                 </div>
                 <div class="metric-value">
@@ -121,14 +138,15 @@
                 </div>
             </div>
 
-            <!-- Owner & Contract Info Card -->
-            <div class="metric-card">
+            <!-- Metric 4: Contract Status -->
+            <div class="tiltable-card" data-tilt>
+                <div class="card-shine"></div>
                 <div class="metric-header">
                     <span class="metric-label">Contract Status</span>
                     <div class="metric-icon"><i class="fa-solid fa-shield-halved"></i></div>
                 </div>
                 <div class="metric-value">
-                    <span id="metricOwnerStatus" style="font-size: 20px;">Checking...</span>
+                    <span id="metricOwnerStatus" style="font-size: 19px;">Checking...</span>
                 </div>
                 <div class="metric-subtext" style="cursor: pointer;" id="btnCopyContractAddress">
                     <i class="fa-regular fa-copy"></i> Contract: <span id="metricContractShort">0x5Fb...0aa3</span>
@@ -136,33 +154,55 @@
             </div>
         </section>
 
-        <!-- Main Portal Panel (Tabs) -->
+        <!-- Main Portal Core -->
         <main class="main-portal-card">
-            <nav class="tabs-nav">
-                <button class="tab-btn active" data-tab="tab-send">
-                    <i class="fa-solid fa-paper-plane"></i> Send
-                </button>
-                <button class="tab-btn" data-tab="tab-receive">
-                    <i class="fa-solid fa-qrcode"></i> Receive
-                </button>
-                <button class="tab-btn" data-tab="tab-mintburn">
-                    <i class="fa-solid fa-fire-flame-curved"></i> Mint & Burn
-                </button>
-                <button class="tab-btn" data-tab="tab-faucet">
-                    <i class="fa-solid fa-faucet-drip"></i> Faucet
-                </button>
-                <button class="tab-btn" data-tab="tab-activity">
-                    <i class="fa-solid fa-clock-rotate-left"></i> Activity
-                </button>
-            </nav>
+            <div class="tabs-nav-wrapper">
+                <nav class="tabs-nav">
+                    <button class="tab-btn active" data-tab="tab-send">
+                        <i class="fa-solid fa-paper-plane"></i> Send
+                    </button>
+                    <button class="tab-btn" data-tab="tab-swap">
+                        <i class="fa-solid fa-right-left"></i> Swap DEX
+                    </button>
+                    <button class="tab-btn" data-tab="tab-staking">
+                        <i class="fa-solid fa-vault"></i> Staking Vault
+                    </button>
+                    <button class="tab-btn" data-tab="tab-receive">
+                        <i class="fa-solid fa-qrcode"></i> Receive
+                    </button>
+                    <button class="tab-btn" data-tab="tab-chart">
+                        <i class="fa-solid fa-chart-line"></i> Market Chart
+                    </button>
+                    <button class="tab-btn" data-tab="tab-mintburn">
+                        <i class="fa-solid fa-fire-flame-curved"></i> Mint & Burn
+                    </button>
+                    <button class="tab-btn" data-tab="tab-batch">
+                        <i class="fa-solid fa-users"></i> Batch Send
+                    </button>
+                    <button class="tab-btn" data-tab="tab-contacts">
+                        <i class="fa-solid fa-address-book"></i> Address Book
+                    </button>
+                    <button class="tab-btn" data-tab="tab-faucet">
+                        <i class="fa-solid fa-faucet-drip"></i> Faucet
+                    </button>
+                    <button class="tab-btn" data-tab="tab-activity">
+                        <i class="fa-solid fa-clock-rotate-left"></i> Activity
+                    </button>
+                </nav>
+            </div>
 
-            <!-- TAB 1: SEND / TRANSFER -->
+            <!-- ==========================================
+                 TAB 1: SEND / TRANSFER
+                 ========================================== -->
             <section class="tab-pane active" id="tab-send">
                 <div style="max-width: 640px; margin: 0 auto;">
                     <div class="form-group">
                         <label class="form-label" for="sendRecipient">
                             <span>Recipient Address</span>
-                            <span class="hint" id="btnPasteRecipient"><i class="fa-regular fa-clipboard"></i> Paste</span>
+                            <div style="display: flex; gap: 10px;">
+                                <span class="hint" id="btnOpenContactPicker"><i class="fa-solid fa-address-book"></i> Contacts</span>
+                                <span class="hint" id="btnPasteRecipient"><i class="fa-regular fa-clipboard"></i> Paste</span>
+                            </div>
                         </label>
                         <div class="input-container">
                             <input type="text" id="sendRecipient" class="input-glass" placeholder="0x... (Ethereum or ENS address)" autocomplete="off">
@@ -186,19 +226,163 @@
                         </div>
                     </div>
 
-                    <div style="margin-bottom: 24px; padding: 12px 16px; background: rgba(9, 17, 37, 0.6); border-radius: var(--radius-md); border: 1px solid rgba(56, 189, 248, 0.1); font-size: 13px; color: var(--text-muted); display: flex; justify-content: space-between;">
-                        <span><i class="fa-solid fa-bolt" style="color: var(--cyan-accent);"></i> Estimated Gas:</span>
-                        <span id="sendEstimatedGas" style="color: #ffffff; font-weight: 600;">~ 0.00042 ETH</span>
+                    <div style="margin-bottom: 22px; padding: 12px 16px; background: rgba(0,0,0,0.3); border-radius: var(--radius-md); border: 1px solid var(--border-glow); font-size: 13px; color: var(--text-muted); display: flex; justify-content: space-between;">
+                        <span><i class="fa-solid fa-bolt" style="color: var(--accent);"></i> Estimated Gas:</span>
+                        <span id="sendEstimatedGas" style="color: #ffffff; font-weight: 700;">~ 0.00042 ETH ($1.25)</span>
                     </div>
 
                     <button class="btn-liquid-primary" id="btnExecuteTransfer">
-                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                        <i class="fa-solid fa-paper-plane"></i>
                         <span>Transfer Tokens</span>
                     </button>
                 </div>
             </section>
 
-            <!-- TAB 2: RECEIVE (QR CODE) -->
+            <!-- ==========================================
+                 TAB 2: SWAP DEX SIMULATOR
+                 ========================================== -->
+            <section class="tab-pane" id="tab-swap">
+                <div class="swap-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <h3 style="font-size: 20px; font-weight: 800;">Liquid Swap</h3>
+                        <div style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted);">
+                            <span>Slippage:</span>
+                            <span class="amount-pill" style="padding: 2px 8px; flex: none;">0.5%</span>
+                        </div>
+                    </div>
+
+                    <!-- Pay Box -->
+                    <div class="swap-box">
+                        <div class="swap-box-header">
+                            <span>You Pay</span>
+                            <span id="swapPayBalance">Balance: 0.00</span>
+                        </div>
+                        <div class="swap-input-row">
+                            <input type="number" id="swapPayAmount" class="swap-input" placeholder="0.0" value="100">
+                            <div class="token-select-pill" id="swapFromToken">
+                                <i class="fa-solid fa-coins" style="color: var(--accent);"></i>
+                                <span>MTK</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Switch Button -->
+                    <div class="swap-arrow-center">
+                        <button class="swap-switch-btn" id="btnSwitchSwapTokens">
+                            <i class="fa-solid fa-arrow-down-up-across-line"></i>
+                        </button>
+                    </div>
+
+                    <!-- Receive Box -->
+                    <div class="swap-box">
+                        <div class="swap-box-header">
+                            <span>You Receive (Estimated)</span>
+                            <span id="swapReceiveBalance">Balance: 0.00</span>
+                        </div>
+                        <div class="swap-input-row">
+                            <input type="number" id="swapReceiveAmount" class="swap-input" placeholder="0.0" readonly>
+                            <div class="token-select-pill" id="swapToToken">
+                                <i class="fa-brands fa-ethereum" style="color: #627eea;"></i>
+                                <span>ETH</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Swap Rate Details -->
+                    <div class="swap-details-box">
+                        <div class="swap-detail-row">
+                            <span>Exchange Rate</span>
+                            <span id="swapRateTxt" style="color: #fff; font-weight: 700;">1 MTK = 0.0005 ETH</span>
+                        </div>
+                        <div class="swap-detail-row">
+                            <span>Price Impact</span>
+                            <span style="color: var(--success);">< 0.05%</span>
+                        </div>
+                        <div class="swap-detail-row">
+                            <span>Liquidity Provider Fee</span>
+                            <span>0.25 MTK</span>
+                        </div>
+                    </div>
+
+                    <button class="btn-liquid-primary" id="btnExecuteSwap">
+                        <i class="fa-solid fa-right-left"></i>
+                        <span>Execute Instant Swap</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 TAB 3: STAKING & YIELD VAULT
+                 ========================================== -->
+            <section class="tab-pane" id="tab-staking">
+                <div class="staking-grid">
+                    <!-- Staking Hero Banner -->
+                    <div class="staking-hero-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h3 style="font-size: 24px; font-weight: 800;">MTK Liquid Staking Vault</h3>
+                                <p style="font-size: 13px; color: var(--text-muted);">Stake your MTK to secure network liquidity and earn passive real-time yield.</p>
+                            </div>
+                            <span class="apr-badge"><i class="fa-solid fa-bolt"></i> 18.5% APY</span>
+                        </div>
+
+                        <!-- Real-time Live Reward Ticker -->
+                        <div style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-glow); border-radius: var(--radius-lg); padding: 20px; text-align: center;">
+                            <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px;">Unclaimed Accrued Yield</div>
+                            <div class="live-reward-counter" id="stakingAccruedRewards">0.000000 MTK</div>
+                            <div style="font-size: 12px; color: var(--text-dim); margin-top: 6px;">
+                                <i class="fa-solid fa-rotate" style="animation: spin 3s linear infinite;"></i> Compounding live every second
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 14px;">
+                            <button class="btn-liquid-primary" id="btnClaimStakingRewards" style="flex: 1;">
+                                <i class="fa-solid fa-gift"></i>
+                                <span>Claim Yield</span>
+                            </button>
+                            <button class="btn-liquid-primary btn-liquid-danger" id="btnUnstakeTokens" style="flex: 1;">
+                                <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                                <span>Unstake All</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Staking Input Box -->
+                    <div class="subcard-glass">
+                        <h4 style="font-size: 18px; font-weight: 700;"><i class="fa-solid fa-plus-circle" style="color: var(--accent);"></i> Stake MTK</h4>
+                        <div class="form-group">
+                            <label class="form-label" for="stakeInputAmount">
+                                <span>Deposit Amount</span>
+                                <span class="hint" id="btnMaxStake">Max: 0 MTK</span>
+                            </label>
+                            <div class="input-container">
+                                <input type="number" step="any" id="stakeInputAmount" class="input-glass" placeholder="0.0">
+                                <button class="input-suffix-btn" id="btnFillMaxStake">MAX</button>
+                            </div>
+                        </div>
+
+                        <div style="font-size: 13px; color: var(--text-muted); display: flex; flex-direction: column; gap: 6px;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Currently Staked:</span>
+                                <strong id="userStakedAmount" style="color: #fff;">0.00 MTK</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Est. Daily Earnings:</span>
+                                <strong id="estDailyYield" style="color: var(--accent);">0.00 MTK / day</strong>
+                            </div>
+                        </div>
+
+                        <button class="btn-liquid-primary" id="btnExecuteStake">
+                            <i class="fa-solid fa-lock"></i>
+                            <span>Stake MTK</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 TAB 4: RECEIVE (QR CODE)
+                 ========================================== -->
             <section class="tab-pane" id="tab-receive">
                 <div class="receive-box">
                     <div>
@@ -211,7 +395,7 @@
                     </div>
 
                     <div class="receive-address-box">
-                        <span id="receiveAddressFull" style="font-family: monospace; font-size: 14px; word-break: break-all; color: var(--cyan-accent);">
+                        <span id="receiveAddressFull" style="font-family: monospace; font-size: 14px; word-break: break-all; color: var(--accent);">
                             Connect your wallet to generate QR code
                         </span>
                         <button class="icon-btn" id="btnCopyReceiveAddress" title="Copy Address">
@@ -225,13 +409,74 @@
                 </div>
             </section>
 
-            <!-- TAB 3: MINT & BURN -->
+            <!-- ==========================================
+                 TAB 5: MARKET CHART & ANALYTICS
+                 ========================================== -->
+            <section class="tab-pane" id="tab-chart">
+                <div class="chart-container-card">
+                    <div class="chart-header">
+                        <div>
+                            <h3 style="font-size: 22px; font-weight: 800;">MTK / USD Market Chart</h3>
+                            <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 4px;">
+                                <span style="font-size: 28px; font-weight: 800; font-family: 'Outfit';" id="chartCurrentPrice">$1.42</span>
+                                <span style="color: var(--success); font-size: 14px; font-weight: 700;"><i class="fa-solid fa-arrow-trend-up"></i> +12.4% (24h)</span>
+                            </div>
+                        </div>
+
+                        <!-- Timeframe buttons -->
+                        <div class="timeframe-picker">
+                            <button class="timeframe-btn active" data-timeframe="1D">24H</button>
+                            <button class="timeframe-btn" data-timeframe="7D">7D</button>
+                            <button class="timeframe-btn" data-timeframe="1M">1M</button>
+                            <button class="timeframe-btn" data-timeframe="1Y">1Y</button>
+                        </div>
+                    </div>
+
+                    <!-- SVG Spline Graph -->
+                    <div class="svg-chart-wrap">
+                        <svg id="marketChartSvg" viewBox="0 0 800 280" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="var(--chart-stroke)" stop-opacity="0.4"/>
+                                    <stop offset="100%" stop-color="var(--chart-stroke)" stop-opacity="0"/>
+                                </linearGradient>
+                            </defs>
+                            <path id="chartAreaPath" fill="url(#chartGrad)" d=""/>
+                            <path id="chartLinePath" fill="none" stroke="var(--chart-stroke)" stroke-width="3" stroke-linecap="round" d=""/>
+                        </svg>
+                    </div>
+
+                    <!-- Analytics Stats Row -->
+                    <div class="chart-stats-row">
+                        <div class="chart-stat-item">
+                            <h5>24H HIGH</h5>
+                            <p style="color: var(--success);">$1.48</p>
+                        </div>
+                        <div class="chart-stat-item">
+                            <h5>24H LOW</h5>
+                            <p style="color: var(--danger);">$1.24</p>
+                        </div>
+                        <div class="chart-stat-item">
+                            <h5>24H VOLUME</h5>
+                            <p>$482,910</p>
+                        </div>
+                        <div class="chart-stat-item">
+                            <h5>MARKET CAP</h5>
+                            <p>$1,420,000</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 TAB 6: MINT & BURN
+                 ========================================== -->
             <section class="tab-pane" id="tab-mintburn">
                 <div class="mint-burn-grid">
                     <!-- Owner Minting Suite -->
                     <div class="subcard-glass">
                         <div class="subcard-title">
-                            <i class="fa-solid fa-wand-magic-sparkles" style="color: var(--cyan-accent);"></i>
+                            <i class="fa-solid fa-wand-magic-sparkles" style="color: var(--accent);"></i>
                             <span>Mint New Tokens</span>
                             <span class="owner-badge" id="mintOwnerStatusBadge">Owner Feature</span>
                         </div>
@@ -283,7 +528,69 @@
                 </div>
             </section>
 
-            <!-- TAB 4: FAUCET & TEST TOOLS -->
+            <!-- ==========================================
+                 TAB 7: BATCH MULTI-SENDER
+                 ========================================== -->
+            <section class="tab-pane" id="tab-batch">
+                <div style="max-width: 720px; margin: 0 auto;">
+                    <h3 style="font-size: 22px; font-weight: 800; margin-bottom: 6px;">Batch Token Multi-Sender</h3>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 18px;">
+                        Send MTK to multiple recipients at once. Enter each recipient address and amount per line (e.g. <code>address, amount</code>).
+                    </p>
+
+                    <div class="form-group">
+                        <label class="form-label" for="batchInput">
+                            <span>Recipients & Amounts List</span>
+                            <span class="hint" id="btnInsertSampleBatch">Insert Sample List</span>
+                        </label>
+                        <textarea id="batchInput" class="batch-textarea" placeholder="0x70997970C51812dc3A010C7d01b50e0d17dc79C8, 50&#10;0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC, 25"></textarea>
+                    </div>
+
+                    <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-glow); border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 20px; display: flex; justify-content: space-between; font-size: 13px;">
+                        <span>Recipients: <strong id="batchCount" style="color: #fff;">0</strong></span>
+                        <span>Total MTK: <strong id="batchTotalAmount" style="color: var(--accent);">0 MTK</strong></span>
+                    </div>
+
+                    <button class="btn-liquid-primary" id="btnExecuteBatchTransfer">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Execute Batch Transfers</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 TAB 8: ADDRESS BOOK / CONTACTS
+                 ========================================== -->
+            <section class="tab-pane" id="tab-contacts">
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <div>
+                            <h3 style="font-size: 20px; font-weight: 800;">Address Book & Contacts</h3>
+                            <p style="font-size: 13px; color: var(--text-muted);">Save frequently used addresses for quick 1-click transfers.</p>
+                        </div>
+                        <button class="btn-liquid-primary" id="btnOpenAddContactModal" style="width: auto; padding: 8px 16px; font-size: 13px;">
+                            <i class="fa-solid fa-user-plus"></i> Add Contact
+                        </button>
+                    </div>
+
+                    <table class="address-book-table">
+                        <thead>
+                            <tr>
+                                <th>Name / Tag</th>
+                                <th>Address</th>
+                                <th style="text-align: right;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contactsTableBody">
+                            <!-- Dynamic Contacts List -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 TAB 9: FAUCET & TEST TOOLS
+                 ========================================== -->
             <section class="tab-pane" id="tab-faucet">
                 <div style="max-width: 680px; margin: 0 auto; text-align: center;">
                     <div class="metric-icon" style="width: 56px; height: 56px; margin: 0 auto 16px; font-size: 24px; border-radius: 16px;">
@@ -294,8 +601,8 @@
                         Claim test MTK tokens instantly for development and testing on Hardhat or supported test networks.
                     </p>
 
-                    <div style="background: rgba(9, 17, 37, 0.7); border: 1px solid var(--border-glow); border-radius: var(--radius-md); padding: 24px; margin-bottom: 24px;">
-                        <div style="font-size: 32px; font-weight: 800; font-family: 'Outfit'; color: var(--cyan-accent); margin-bottom: 4px;">
+                    <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-glow); border-radius: var(--radius-md); padding: 24px; margin-bottom: 24px;">
+                        <div style="font-size: 32px; font-weight: 800; font-family: 'Outfit'; color: var(--accent); margin-bottom: 4px;">
                             100 MTK
                         </div>
                         <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">
@@ -307,8 +614,8 @@
                         </button>
                     </div>
 
-                    <div style="text-align: left; background: rgba(9, 17, 37, 0.4); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-md); padding: 18px;">
-                        <h4 style="font-size: 14px; margin-bottom: 10px; color: var(--cyan-accent);">
+                    <div style="text-align: left; background: rgba(0,0,0,0.25); border: 1px solid var(--border-glow); border-radius: var(--radius-md); padding: 18px;">
+                        <h4 style="font-size: 14px; margin-bottom: 10px; color: var(--accent);">
                             <i class="fa-solid fa-terminal"></i> Hardhat Local Testing Info:
                         </h4>
                         <div style="font-size: 12px; color: var(--text-muted); line-height: 1.6;">
@@ -320,7 +627,9 @@
                 </div>
             </section>
 
-            <!-- TAB 5: ACTIVITY / TRANSACTION HISTORY -->
+            <!-- ==========================================
+                 TAB 10: ACTIVITY / TRANSACTION HISTORY
+                 ========================================== -->
             <section class="tab-pane" id="tab-activity">
                 <div class="history-header">
                     <h3 style="font-size: 20px; font-weight: 700;">Recent Transactions</h3>
@@ -330,7 +639,6 @@
                 </div>
 
                 <div class="history-list" id="activityList">
-                    <!-- Populated dynamically by JS -->
                     <div class="empty-state" id="historyEmptyState">
                         <i class="fa-solid fa-receipt"></i>
                         <p>No recent transactions recorded yet.</p>
@@ -341,11 +649,11 @@
         </main>
     </div>
 
-    <!-- Contract Settings Modal -->
+    <!-- Modal 1: Contract Settings Modal -->
     <div class="modal-overlay" id="contractModal">
         <div class="modal-card">
             <div class="modal-header">
-                <h3 style="font-size: 20px; font-weight: 700;"><i class="fa-solid fa-sliders" style="color: var(--cyan-accent);"></i> Contract Settings</h3>
+                <h3 style="font-size: 20px; font-weight: 700;"><i class="fa-solid fa-sliders" style="color: var(--accent);"></i> Contract Settings</h3>
                 <button class="modal-close" id="btnCloseContractModal"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="form-group">
@@ -363,6 +671,27 @@
                     Reset
                 </button>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: Add Contact Modal -->
+    <div class="modal-overlay" id="addContactModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 style="font-size: 20px; font-weight: 700;"><i class="fa-solid fa-user-plus" style="color: var(--accent);"></i> Add Contact</h3>
+                <button class="modal-close" id="btnCloseAddContactModal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="contactNameInput">Contact Name / Label</label>
+                <input type="text" id="contactNameInput" class="input-glass" placeholder="e.g. Alice / Treasury">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="contactAddressInput">Ethereum Address</label>
+                <input type="text" id="contactAddressInput" class="input-glass" placeholder="0x...">
+            </div>
+            <button class="btn-liquid-primary" id="btnSaveContact">
+                <i class="fa-solid fa-save"></i> Save Contact
+            </button>
         </div>
     </div>
 

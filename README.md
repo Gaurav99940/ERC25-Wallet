@@ -1,44 +1,36 @@
-# 💧 Aura Liquid ERC-20 Smart Portal & Wallet
+# 💎 Aura Liquid Crystal ERC-20 Portal & Wallet
 
-A professional, high-performance Web3 ERC-20 Token Wallet and Management Portal featuring an interactive **Liquid Blue Glassmorphism UI**, real-time fluid canvas animations, audio micro-interactions, and a rich Web3 suite (Transfers, QR Code generation, Owner Minting, Deflationary Token Burning, Local Faucet, Network Switcher, and Transaction Activity Logs).
+Next-generation Web3 ERC-20 Token Wallet and Management Portal featuring an interactive **Liquid Crystal Multi-Theme Engine**, 3D perspective card physics, magnetic ripple button effects, and a complete suite of DeFi & Web3 tools (**DEX Swap**, **Liquid Staking Vault**, **Live Market Chart**, **Batch Multi-Sender**, **Address Book**, and **Network Gas Radar**).
 
 ---
 
-## ✨ Features & Enhancements
+## ✨ Key Features & Innovations
 
-### 🎨 1. Liquid Blue UI & Visual Aesthetics
-- **Interactive Fluid Canvas**: Real-time canvas simulation with drifting blue/cyan metaballs and wave ripples that subtly react to mouse movements.
-- **Glassmorphism Design**: Frosted glass cards (`backdrop-filter: blur(20px)`), electric blue luminous borders, shiny liquid gradient buttons, and responsive grid layout.
-- **Synthesized Audio Micro-Interactions**: Built-in Web Audio API organic liquid water-droplet sound effects on clicks, transfers, and burns (with mute/unmute toggle).
-- **Typography & Icons**: Styled with Google Fonts *Outfit* & *Plus Jakarta Sans* alongside FontAwesome 6 icons.
+### 🎨 1. Liquid Crystal Visual & Interactive Experience
+- **Multi-Theme Engine (Instant 1-Click Switcher)**:
+  1. **Liquid Crystal Azure** (Ice Sapphire & Cyan Prismatic Glow)
+  2. **Cyber Emerald Crystal** (Deep Obsidian & Neon Mint Luster)
+  3. **Amethyst Quartz** (Royal Violet & Magenta Shimmer)
+  4. **Obsidian Gold** (Ultra-luxe Dark Amber & Liquid Gold)
+- **3D Card Tilt & Specular Light Flare**: Metric and hero cards track mouse physics in real-time (`perspective(1000px) rotateX/Y`) with dynamic luminous specular flares.
+- **Magnetic Liquid Ripple Button Physics**: Expanding water ripple wave animation at exact click coordinates on buttons, cards, and tabs.
+- **Harmonic Crystal Audio Synthesizer**: Web Audio API generated crystalline resonance notes on clicks, swaps, rewards, and token burns (with mute control).
 
-### ⚡ 2. Core Web3 Features
-- **Smart Wallet Integration**:
-  - Auto-detection for MetaMask and EIP-1193 wallets.
-  - Multi-account switching and auto-updating UI.
-  - 1-click address copy with feedback avatar and short address pill.
-- **Dynamic Token Dashboard**:
-  - Live Token Name, Symbol (`MTK`), Decimals, Total Supply, and Wallet Balance.
-  - Native Gas (`ETH`) balance and holding share percentage calculator.
-  - Live Contract Ownership check (`owner()` vs token holder badge).
-- **Send & Transfer Portal**:
-  - Recipient address format validator with clipboard "Paste" helper.
-  - Quick percentage selectors (`25%`, `50%`, `75%`, `MAX`).
-  - Real-time estimated gas preview and live mining toasts.
-- **Receive & QR Code Generator**:
-  - Live generated QR code for the connected address.
-  - Shareable address container with instant copy button.
-- **Owner Mint & Token Burn Hub**:
-  - **Owner Minting**: Deployer can mint new tokens directly to any Ethereum address.
-  - **Burn Portal**: Token holders can permanently burn MTK from their balance to reduce circulating supply.
-- **Testnet / Hardhat Faucet**:
-  - 1-click 100 MTK Faucet claimer for local testing and developer feedback.
-- **Activity & Transaction History Feed**:
-  - Persistent transaction history stored in LocalStorage (Transfers, Mints, Burns, Receives) with timestamps, amounts, and Tx hashes.
-- **Network Switcher & Custom Contract Settings**:
-  - Live network badge (Hardhat 1337, Sepolia, Mainnet, Polygon, etc.).
-  - 1-click Switch or Auto-add Hardhat Localhost network to MetaMask.
-  - Dynamic Contract Address configuration modal.
+---
+
+### ⚡ 2. Advanced Web3 & DeFi Suite
+
+| Feature | Description |
+| :--- | :--- |
+| **🔄 Liquid Swap (DEX Simulator)** | Instant token swap between MTK, ETH, USDT, and USDC with automated rate calculator, liquidity fee breakdown, and slippage indicator. |
+| **🥩 Staking & Yield Vault** | Stake MTK tokens to earn passive **18.5% APY** with a **live per-second ticking rewards counter**, 1-click Claim Yield and Unstake. |
+| **📈 Live Market Chart & Analytics** | Interactive SVG smooth Bezier curve spline price graph (24H, 7D, 1M, 1Y) with 24h High/Low, Liquidity, and Market Cap indicators. |
+| **🚀 Batch Multi-Sender** | Distribute MTK tokens to multiple recipients simultaneously using CSV/multiline paste input with syntax validator. |
+| **📖 Address Book & Contacts** | Save frequently used addresses with custom tags (e.g. "Dev Treasury", "Liquidity Pool") with 1-click "Send to Contact". |
+| **💸 Send / Transfer Portal** | Fast token transfer with quick percentage selectors (`25%`, `50%`, `75%`, `MAX`), clipboard paste helper, and gas estimation. |
+| **📱 Receive & QR Code** | Real-time QR code generator for user's wallet address + 1-click address copy. |
+| **🔥 Mint & Burn Suite** | Contract owner minting hub + deflationary token burning portal for all holders. |
+| **⛽ Live Gas Radar & Faucet** | Live Gwei monitor with speed status + 1-click 100 MTK testnet faucet. |
 
 ---
 
@@ -46,7 +38,7 @@ A professional, high-performance Web3 ERC-20 Token Wallet and Management Portal 
 
 - **Smart Contract**: Solidity `^0.8.20`, OpenZeppelin Contracts (`ERC20`, `Ownable`)
 - **Development Environment**: Hardhat, Ethers.js v6 / v5, Chai / Mocha
-- **Frontend**: HTML5, Vanilla JavaScript (ES6+), Modern CSS3 (Glassmorphism & Custom Properties)
+- **Frontend**: HTML5, Vanilla JavaScript (ES6+), Modern CSS3 (Custom Properties & 3D Transforms)
 - **Web3 Library**: Ethers.js v5.7.2 UMD
 - **Server**: Express.js
 
@@ -54,23 +46,12 @@ A professional, high-performance Web3 ERC-20 Token Wallet and Management Portal 
 
 ## 🚀 Quick Start Guide
 
-### 1. Install Dependencies
-```bash
-# In the project root
-npm install
-
-# In the frontend directory
-cd frontend
-npm install
-cd ..
-```
-
-### 2. Run Tests
+### 1. Run Tests
 ```bash
 npx hardhat test
 ```
 
-### 3. Start Local Blockchain & Deploy Contract
+### 2. Start Local Blockchain & Deploy Contract
 
 **Terminal 1:** Start Hardhat local node
 ```bash
@@ -82,27 +63,14 @@ npx hardhat node
 npx hardhat run scripts/deploy.js --network localhost
 ```
 
-### 4. Start the Frontend Server
+### 3. Start Frontend Server
 
 **Terminal 3:** Launch web interface
 ```bash
 cd frontend
 node server.js
 ```
-Open your browser and navigate to: **`http://localhost:3000`**
-
----
-
-## 🔒 Smart Contract Details
-
-- **Contract Name**: `MyToken.sol`
-- **Standard**: ERC-20 (OpenZeppelin)
-- **Initial Supply**: 1,000,000 MTK minted to deployer
-- **Key Functions**:
-  - `transfer(to, amount)`: Standard token transfer
-  - `mint(to, amount)`: Restricted to contract `owner`
-  - `burn(amount)`: Open to any token holder
-  - `owner()`: Returns contract owner address
+Open your browser at: **`http://localhost:3000`**
 
 ---
 
